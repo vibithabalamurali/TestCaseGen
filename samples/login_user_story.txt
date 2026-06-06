@@ -1,0 +1,10 @@
+As a registered user,
+I want to log in with my email and password,
+So that I can access my account dashboard.
+
+Acceptance Criteria:
+- Valid email and password grant access to the dashboard
+- Invalid credentials show "Invalid email or password"
+- Account locks after 5 failed attempts within 15 minutes
+- Empty email or password fields show inline validation errors
+- Password field masks input characters
