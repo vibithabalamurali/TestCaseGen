@@ -3,414 +3,347 @@
 ## 👥 Team Information
 
 ### Team Name
-
 **InfiniteMinds**
 
 ### Team Number
-
 **Team 30**
 
 ### Team Members
-
-* Vibitha B K
-* Varun S
-* Varsha S
+* **Vibitha B K** - Full Stack & AI Integration Lead
+* **Varun S** - Frontend & UI/UX Developer
+* **Varsha S** - QA Engineer & CLI Development
 
 ---
 
 ## 🌐 Deliverable Links
 
-### Demo Video
-
-https://www.loom.com/share/277309bc610c49ba940f40a580c0fc94
-
-### GitHub Repository
-
-https://github.com/vibithabalamurali/TestCaseGen
+### Deployed Links
+* **Demo Video**: [Loom Demo Video](https://www.loom.com/share/277309bc610c49ba940f40a580c0fc94)
+* **GitHub Repository**: [GitHub Repo](https://github.com/vibithabalamurali/TestCaseGen)
+* **AI Reference Link**: [ChatGPT Reference Link](https://chatgpt.com/share/6a265385-4920-8320-a311-eb051e8861ab)
 
 ---
 
 ## 📌 Overview
+The **AI Test Case Generator** is a web-based platform that automates the conversion of software user stories into structured Behavior-Driven Development (BDD) test scenarios using Generative Artificial Intelligence.
 
-The AI Test Case Generator is a web-based application that automatically converts user stories into structured Behavior-Driven Development (BDD) test cases using Generative AI.
-
-The system analyzes user requirements and generates comprehensive test scenarios in Gherkin format, including positive, negative, and edge-case scenarios. The generated output can be directly used with automation frameworks such as Cucumber and Behave.
-
-This solution helps reduce manual effort, improve consistency, and increase test coverage during software testing activities.
-
-
-# 🧠 Problem Statement
-
-Software teams often spend significant time manually creating test cases from user stories. This process can be:
-
-* Time-consuming
-* Repetitive
-* Error-prone
-* Inconsistent across teams
-* Likely to miss important edge cases
-
-The AI Test Case Generator addresses these challenges by automatically generating structured test scenarios from natural language requirements.
+The system parses natural-language user stories and generates comprehensive test suites in Gherkin format, categorize them under positive, negative, and edge-case tags, and packages them as fully download-ready Cucumber/Behave frameworks.
 
 ---
 
-# 🎯 Features
+## 🧠 Problem Statement
+Software quality assurance teams spend massive manual effort translation user stories and acceptance criteria into test scripts. This manual approach presents several major bottlenecks:
+* **Time-consuming manual drafting** of repetitive step scenarios.
+* **Inconsistent test coverage** across diverse feature sets.
+* **Overlooked edge cases** and negative input validations.
+* **Long development-to-testing feedback loops**, slowing down CI/CD pipelines.
+
+The AI Test Case Generator automates this translation layer, analyzing stories instantaneously and generating production-ready Gherkin test scenarios.
+
+---
+
+## 🎯 Features
 
 ### Core Features
-
-* User Story Input Interface
-* AI-Powered Test Case Generation
-* Positive Scenario Generation
-* Negative Scenario Generation
-* Edge Case Identification
-* Gherkin Format Output
-* Downloadable `.feature` Files
-* Cucumber-Compatible Output
-* Behave-Compatible Output
-* Story Coverage Analysis
-* Structured Prompt-Based Generation
+* **Interactive Input Console**: Plain-text editor for user stories and acceptance criteria.
+* **Gherkin Auto-Generation**: Instant generation of Cucumber/Behave feature scenarios.
+* **Scenario Tagging**: Automatic categorizations with `@positive`, `@negative`, and `@edge` annotations.
+* **QA Intelligence Analytics**:
+  * **Story Quality**: Calculates a readiness score and points out missing requirements or actors.
+  * **Test Coverage**: Highlights covered specifications, identifies missing test pathways, and flags security gaps.
+  * **Execution Simulation**: Mock execution simulation mapping out step transitions.
+* **Export Packages**: Downloads `.feature` files or ready-to-run Behave/Cucumber ZIP structures.
 
 ---
 
-# ⚙️ System Architecture
+## ⚙️ Detailed System Architecture
 
+### High-Level Architecture
 ```text
-User Story
-     │
-     ▼
-AI Processing Engine
-     │
-     ▼
-Coverage Analysis
-     │
-     ▼
-Scenario Generation
-     │
-     ▼
-Gherkin Formatter
-     │
-     ▼
-Feature File Generator
-     │
-     ▼
-Downloadable Output
+┌─────────────────────────────────────────────────────────────┐
+│                        End Users                            │
+│                     (QA / Developers)                       │
+└───────────────────────┬─────────────────────────────────────┘
+                        │
+                        ▼
+┌─────────────────────────────────────────────────────────────┐
+│                    React Frontend                           │
+│                                                             │
+│  • User Story Editor                                        │
+│  • QA Intelligence Console                                  │
+│  • Interactive Gherkin Editor                               │
+│  • Download & Package Manager                               │
+│                                                             │
+│ Technologies: React.js, Vite, Tailwind CSS, Axios           │
+└───────────────────────┬─────────────────────────────────────┘
+                        │
+                        │ HTTP / REST API
+                        ▼
+┌─────────────────────────────────────────────────────────────┐
+│                    Flask Backend API                        │
+│                                                             │
+│  API Layer                                                  │
+│  ├── GET /health                                            │
+│  ├── POST /generate                                         │
+│  ├── POST /download-package                                 │
+│  └── GET /download/<filename>                               │
+│                                                             │
+│  Business Logic Layer                                       │
+│  ├── Story Analysis Service                                 │
+│  ├── Coverage Mapping Engine                                │
+│  ├── Execution Simulator                                    │
+│  └── Behave ZIP Bundler                                     │
+└───────────────────────┬─────────────────────────────────────┘
+                        │
+                        ▼
+┌─────────────────────────────────────────────────────────────┐
+│                  AI Classification Engine                   │
+│                                                             │
+│  • Google Gemini API Client                                 │
+│  • Structured Prompt Engineering Templates                  │
+│  • Output Validation & Fallback Parser                      │
+└───────────────────────┬─────────────────────────────────────┘
+                        │
+                        ▼
+┌─────────────────────────────────────────────────────────────┐
+│                   Google Gemini API                         │
+│                                                             │
+│  • Story Comprehension                                      │
+│  • Scenario Parsing & Gherkin Structuring                   │
+│  • Edge-case & Security Gap Discovery                       │
+└─────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-# 🛠️ Technology Stack
-
-## Frontend
-
-* React.js
-* JavaScript
-* Tailwind CSS
-* Axios
-
-## Backend
-
-* Python
-* Flask
-* Flask-CORS
-
-## AI Integration
-
-* Google Gemini API
-
-## Testing
-
-* Pytest
+## 🔄 Scenario Processing Workflow
+```text
+                  User Story & Acceptance Criteria
+                                │
+                                ▼
+                  ┌───────────────────────────┐
+                  │   Vite React Frontend     │
+                  └─────────────┬─────────────┘
+                                │
+                                ▼
+                  ┌───────────────────────────┐
+                  │    POST /generate API     │
+                  └─────────────┬─────────────┘
+                                │
+                                ▼
+                  ┌───────────────────────────┐
+                  │    Flask App Controller   │
+                  └─────────────┬─────────────┘
+                                │
+                                ▼
+                  ┌───────────────────────────┐
+                  │   Gemini Prompt Builder   │
+                  └─────────────┬─────────────┘
+                                │
+                                ▼
+                  ┌───────────────────────────┐
+                  │    Google Gemini API      │
+                  └─────────────┬─────────────┘
+                                │
+                                ▼
+                  ┌───────────────────────────┐
+                  │ JSON & Gherkin Validation │
+                  └─────────────┬─────────────┘
+                                │
+         ┌──────────────────────┴──────────────────────┐
+         ▼                                             ▼
+┌───────────────────────────┐                 ┌───────────────────────────┐
+│     QA Intelligence       │                 │     Gherkin Generator     │
+│  • Quality Score          │                 │  • Positive Scenarios     │
+│  • Coverage Analysis      │                 │  • Negative Scenarios     │
+│  • Execution Simulator    │                 │  • Edge Cases Scenarios   │
+└────────┬──────────────────┘                 └────────┬──────────────────┘
+         │                                             │
+         └──────────────────────┬──────────────────────┘
+                                │
+                                ▼
+                  ┌───────────────────────────┐
+                  │   Render Frontend Panel   │
+                  └───────────────────────────┘
+```
 
 ---
 
-# 📂 Project Structure
+## 📂 Project Structure
 
 ```text
-AI-Test-Case-Generator/
-
+TestCaseGenerator/
 ├── backend/
-│   ├── tests/
-│   ├── downloads/
-│   ├── app.py
-│   ├── requirements.txt
-│   └── run_tests.bat
+│   ├── tests/                  # Pytest unit & integration test files
+│   │   ├── conftest.py
+│   │   └── test_app.py
+│   ├── services/               # Core background logic files
+│   │   ├── feature_writer.py   # Formats and saves feature files
+│   │   ├── llm_client.py       # Interacts with Gemini APIs
+│   │   └── zip_package.py      # Combines scripts into Behave ZIPs
+│   ├── output/                 # Storage for generated artifacts
+│   ├── app.py                  # Main Flask API controllers and endpoints
+│   ├── cli.py                  # CLI support for local test generation
+│   ├── start.bat               # Fast launch batch script for backend
+│   ├── run_tests.bat           # Run backend test suite quickly
+│   └── requirements.txt        # Backend python dependencies
 │
 ├── frontend/
 │   ├── src/
-│   ├── public/
-│   └── package.json
+│   │   ├── assets/             # Assets and custom SVG graphics
+│   │   ├── App.jsx             # Core application UI and layout
+│   │   ├── App.css             # Main styling configurations
+│   │   ├── index.css           # Global themes and CSS variables
+│   │   └── main.jsx            # Vite DOM mounting entry point
+│   ├── public/                 # Static assets
+│   ├── eslint.config.js        # Lint settings
+│   ├── vite.config.js          # Vite configuration
+│   └── package.json            # Frontend package details
 │
-├── sample-data/
+├── sample_data/                # Reference directories for input/output testing
 │   ├── input/
 │   └── expected-output/
 │
-├── README.md
-└── AI_USAGE_NOTE.md
+├── README.md                   # This overview guide
+└── AI_USAGE_NOTE.md            # Details of prompt development with AI
 ```
 
 ---
 
-# 🚀 Setup Instructions
+## 🚀 Setup Instructions
 
-## Backend Setup
+### Backend Setup
+1. Navigate to the `backend` directory:
+   ```bash
+   cd backend
+   ```
+2. Create and activate a Python virtual environment:
+   ```bash
+   python -m venv venv
+   # On Windows:
+   venv\Scripts\activate
+   # On macOS/Linux:
+   source venv/bin/activate
+   ```
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. Create a `.env` file in the `backend/` directory:
+   ```env
+   GEMINI_API_KEY=your_api_key_here
+   GEMINI_MODEL=gemini-2.5-flash
+   ```
+5. Run the backend server:
+   ```bash
+   python app.py
+   ```
 
-Install dependencies:
-
-```bash
-cd backend
-pip install -r requirements.txt
-```
-
-Create a `.env` file:
-
-```env
-GEMINI_API_KEY=your_api_key_here
-```
-
-Run the backend server:
-
-```bash
-python app.py
-```
+### Frontend Setup
+1. Navigate to the `frontend` directory:
+   ```bash
+   cd frontend
+   ```
+2. Install npm dependencies:
+   ```bash
+   npm install
+   ```
+3. Launch the development server:
+   ```bash
+   npm run dev
+   ```
+4. Access the frontend interface at:
+   ```text
+   http://localhost:5173
+   ```
 
 ---
 
-## Frontend Setup
+## 🔌 API Endpoints
 
-Install dependencies:
+| Endpoint | Method | Description |
+| --- | --- | --- |
+| `/health` | `GET` | API Health check endpoint |
+| `/` | `GET` | Returns home documentation & active endpoints |
+| `/generate` | `POST` | Processes user story, generates Gherkin & QA intelligence |
+| `/download-package` | `POST` | Generates and zips a run-ready Behave package |
+| `/download/<filename>` | `GET` | Fetches the raw `.feature` file for saving locally |
 
-```bash
-cd frontend
-npm install
-```
+---
 
-Run the frontend:
+## 🧪 Example
 
-```bash
-npm run dev
-```
-
-Default frontend URL:
-
+### Input User Story
 ```text
-http://localhost:5173
+As a registered user,
+I want to log in with my email and password,
+So that I can access my account dashboard.
 ```
 
----
-
-# ▶️ Run Instructions
-
-### Start Backend
-
-```bash
-cd backend
-python app.py
-```
-
-### Start Frontend
-
-```bash
-cd frontend
-npm run dev
-```
-
----
-
-# 🔌 API Endpoints
-
-| Endpoint               | Method | Description             |
-| ---------------------- | ------ | ----------------------- |
-| `/`                    | GET    | Home Route              |
-| `/health`              | GET    | Health Check            |
-| `/generate`            | POST   | Generate Test Cases     |
-| `/download-package`    | POST   | Generate Behave Package |
-| `/download/<filename>` | GET    | Download Feature File   |
-
----
-
-# 🧪 Example
-
-## Input User Story
-
-```text
-As a user, I want to log into the application using email and password so that I can access my dashboard.
-```
-
-## Generated Output
-
+### Generated Gherkin Scenarios
 ```gherkin
-Feature: Login Functionality
-
+@positive
 Scenario: Successful login with valid credentials
-Given user is on login page
-When user enters valid email and password
-Then user should be redirected to dashboard
+  Given user is on login page
+  When user enters valid email "test@example.com" and password "Pass123"
+  And clicks "Submit"
+  Then user is redirected to account dashboard
 
-Scenario: Login with invalid password
-Given user is on login page
-When user enters valid email and invalid password
-Then error message should be displayed
+@negative
+Scenario: Login attempt with unregistered email
+  Given user is on login page
+  When user enters unregistered email "invalid@example.com" and password "Pass123"
+  Then error message "User does not exist" should be displayed
 ```
 
 ---
 
-# 📥 Download Features
+## 🧪 Testing & Quality Assurance
 
-The application supports generation of:
+### Backend Automated Testing
+Backend stability and integration logic are validated using `pytest`.
 
-* Gherkin Feature Files
-* Behave-Compatible Packages
-* Cucumber-Compatible Packages
-
-Generated package contents:
-
-```text
-project_package.zip
-
-├── feature.feature
-├── environment.py
-├── common_steps.py
-└── README.md
-```
-
----
-
-# 🧪 Testing & Quality Assurance
-
-## Backend Test Coverage
-
-The backend includes automated testing using **Pytest** to validate the application's core functionality and ensure reliable API behavior.
-
-### Testing Framework
-
-* Pytest (Python)
-
-### Execute Tests
-
+Run tests:
 ```bash
 cd backend
-
 run_tests.bat
-
 # OR
-
 pytest tests/ -v
 ```
 
-### Covered Test Scenarios
+#### Coverage Matrix
+| Module | Test Coverage | Status |
+| --- | --- | --- |
+| **Routing** | Checks `/`, `/health` accessibility and payloads | ✅ Passed |
+| **Generation** | Mocks LLM client output and checks structured outputs | ✅ Passed |
+| **Packages** | Generates valid Behave ZIP archives and payloads | ✅ Passed |
+| **Downloads** | Ensures files write to the directory and stream correctly | ✅ Passed |
 
-#### Health & Routing Integrity
+### Frontend Quality Control
+Lints are managed using ESLint configurations.
 
-Validates:
-
-* API availability
-* Health endpoint functionality
-* Route accessibility
-
-#### AI Test Case Generation
-
-Validates:
-
-* User story submission
-* AI processing workflow
-* Gherkin generation
-* Response structure validation
-
-#### Behave Package Generation
-
-Validates:
-
-* ZIP archive creation
-* Package structure generation
-* Download readiness
-
-#### Feature File Downloads
-
-Validates:
-
-* File availability
-* Successful downloads
-* Content integrity
-
-### Coverage Summary
-
-| Component           | Status   |
-| ------------------- | -------- |
-| Health Endpoint     | ✅ Tested |
-| Route Validation    | ✅ Tested |
-| AI Test Generation  | ✅ Tested |
-| Response Validation | ✅ Tested |
-| Package Generation  | ✅ Tested |
-| File Downloads      | ✅ Tested |
-
----
-
-## Frontend Quality Assurance
-
-Frontend quality is maintained through ESLint validation.
-
-Run lint checks:
-
+Verify code styles:
 ```bash
+cd frontend
 npm run lint
 ```
 
-### Validation Includes
+---
 
-* Code Quality Checks
-* Syntax Validation
-* React Best Practices
-* Maintainability Standards
+## 📋 Assumptions & Limitations
+* **Assumptions**:
+  * Input user stories are provided in English.
+  * Google Gemini API access credentials are validly set up.
+  * Active internet connection is needed for processing.
+* **Limitations**:
+  * Generation quality relies closely on acceptance criteria clarity.
+  * Complex business flows might need manual validation steps.
+  * Sandbox is restricted to text format inputs.
 
 ---
 
-# 📂 Sample Data
-
-Sample input and expected output files are included in:
-
-```text
-sample-data/
-
-├── input/
-└── expected-output/
-```
-
-These files can be used to validate application behavior and generated results.
-
----
-
-# 📋 Assumptions
-
-* User stories are provided in English.
-* Gemini API credentials are configured correctly.
-* Internet connectivity is available for AI processing.
-* Generated test cases are reviewed before production use.
-* Input user stories contain sufficient functional detail.
-
----
-
-# ⚠️ Limitations
-
-* Output quality depends on user story clarity.
-* AI-generated scenarios may require manual refinement.
-* Complex domain-specific requirements may need additional validation.
-* Currently supports text-based user stories only.
-* Generated test cases should be reviewed by QA professionals before automation.
-
----
-
-# 🔮 Future Enhancements
-
-* User Authentication
-* Jira Integration
-* Multi-Language Support
-* Test Case Prioritization
-* Export to PDF and Excel
-* Advanced Coverage Analytics
-* Automatic Step Definition Generation
-* CI/CD Integration
-
----
-
-# 👨‍💻 Author
-
-Developed as part of an AI-powered software testing automation project focused on improving software quality assurance through automated test case generation.
+## 🔮 Future Enhancements
+* **Direct Jira Integration**: Automatically fetch stories and push back features.
+* **Step Definition Stubber**: Write boilerplate testing classes in Python automatically.
+* **Excel & PDF Exporters**: Generate shareable reports for stakeholders.
+* **Multi-language Support**: Accept and write files in Spanish, German, French, etc.
