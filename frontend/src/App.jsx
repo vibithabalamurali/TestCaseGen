@@ -188,76 +188,80 @@ function App() {
             <p className="placeholder">Story quality, coverage score, and simulation appear here after generation.</p>
           )}
 
-          {storyAnalysis && !storyAnalysis.error && (
-            <div className="analysis-block">
-              <h3>Story Quality</h3>
-              <ScoreRing score={storyAnalysis.quality_score} label="Quality" />
-              {!storyAnalysis.is_ready && storyAnalysis.issues?.length > 0 && (
-                <ul className="issue-list">
-                  {storyAnalysis.issues.map((issue, i) => (
-                    <li key={i}>{issue}</li>
-                  ))}
-                </ul>
+          {(storyAnalysis || coverageAnalysis || executionSimulation) && (
+            <div className="analysis-content">
+              {storyAnalysis && !storyAnalysis.error && (
+                <div className="analysis-block">
+                  <h3>Story Quality</h3>
+                  <ScoreRing score={storyAnalysis.quality_score} label="Quality" />
+                  {!storyAnalysis.is_ready && storyAnalysis.issues?.length > 0 && (
+                    <ul className="issue-list">
+                      {storyAnalysis.issues.map((issue, i) => (
+                        <li key={i}>{issue}</li>
+                      ))}
+                    </ul>
+                  )}
+                  <div className="req-grid">
+                    <div><strong>Actors</strong><p>{storyAnalysis.actors?.join(", ") || "—"}</p></div>
+                    <div><strong>Actions</strong><p>{storyAnalysis.actions?.join(", ") || "—"}</p></div>
+                    <div><strong>Inputs</strong><p>{storyAnalysis.inputs?.join(", ") || "—"}</p></div>
+                  </div>
+                </div>
               )}
-              <div className="req-grid">
-                <div><strong>Actors</strong><p>{storyAnalysis.actors?.join(", ") || "—"}</p></div>
-                <div><strong>Actions</strong><p>{storyAnalysis.actions?.join(", ") || "—"}</p></div>
-                <div><strong>Inputs</strong><p>{storyAnalysis.inputs?.join(", ") || "—"}</p></div>
-              </div>
-            </div>
-          )}
 
-          {coverageAnalysis && !coverageAnalysis.error && (
-            <div className="analysis-block">
-              <h3>Test Coverage</h3>
-              <ScoreRing score={coverageAnalysis.coverage_score} label="Coverage" />
-              {coverageAnalysis.covered?.length > 0 && (
-                <>
-                  <p className="list-title covered-title">Covered</p>
-                  <ul className="check-list">
-                    {coverageAnalysis.covered.map((item, i) => (
-                      <li key={i}>✔ {item}</li>
-                    ))}
-                  </ul>
-                </>
+              {coverageAnalysis && !coverageAnalysis.error && (
+                <div className="analysis-block">
+                  <h3>Test Coverage</h3>
+                  <ScoreRing score={coverageAnalysis.coverage_score} label="Coverage" />
+                  {coverageAnalysis.covered?.length > 0 && (
+                    <>
+                      <p className="list-title covered-title">Covered</p>
+                      <ul className="check-list">
+                        {coverageAnalysis.covered.map((item, i) => (
+                          <li key={i}>✔ {item}</li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+                  {coverageAnalysis.missing?.length > 0 && (
+                    <>
+                      <p className="list-title missing-title">Missing Scenarios</p>
+                      <ul className="issue-list">
+                        {coverageAnalysis.missing.map((item, i) => (
+                          <li key={i}>{item}</li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+                  {coverageAnalysis.security_gaps?.length > 0 && (
+                    <>
+                      <p className="list-title security-title">Security Gaps</p>
+                      <ul className="issue-list security">
+                        {coverageAnalysis.security_gaps.map((item, i) => (
+                          <li key={i}>🔐 {item}</li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+                </div>
               )}
-              {coverageAnalysis.missing?.length > 0 && (
-                <>
-                  <p className="list-title missing-title">Missing Scenarios</p>
-                  <ul className="issue-list">
-                    {coverageAnalysis.missing.map((item, i) => (
-                      <li key={i}>{item}</li>
-                    ))}
-                  </ul>
-                </>
-              )}
-              {coverageAnalysis.security_gaps?.length > 0 && (
-                <>
-                  <p className="list-title security-title">Security Gaps</p>
-                  <ul className="issue-list security">
-                    {coverageAnalysis.security_gaps.map((item, i) => (
-                      <li key={i}>🔐 {item}</li>
-                    ))}
-                  </ul>
-                </>
-              )}
-            </div>
-          )}
 
-          {executionSimulation?.results?.length > 0 && (
-            <div className="analysis-block">
-              <h3>Execution Simulation</h3>
-              <p className="sim-summary">
-                {executionSimulation.summary.passed}/{executionSimulation.summary.total} scenarios passed
-              </p>
-              <ul className="sim-list">
-                {executionSimulation.results.map((r, i) => (
-                  <li key={i} className={r.status}>
-                    {r.status === "passed" ? "✔" : "✘"} {r.scenario}
-                    <span className="sim-note">{r.note}</span>
-                  </li>
-                ))}
-              </ul>
+              {executionSimulation?.results?.length > 0 && (
+                <div className="analysis-block">
+                  <h3>Execution Simulation</h3>
+                  <p className="sim-summary">
+                    {executionSimulation.summary.passed}/{executionSimulation.summary.total} scenarios passed
+                  </p>
+                  <ul className="sim-list">
+                    {executionSimulation.results.map((r, i) => (
+                      <li key={i} className={r.status}>
+                        {r.status === "passed" ? "✔" : "✘"} {r.scenario}
+                        <span className="sim-note">{r.note}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           )}
         </section>

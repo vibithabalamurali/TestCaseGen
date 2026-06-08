@@ -1,25 +1,43 @@
 import json
 import os
 import re
+from pathlib import Path
 
 import google.generativeai as genai
 from dotenv import load_dotenv
 
-load_dotenv()
+ENV_PATH = Path(__file__).resolve().parent.parent / ".env"
+SAFE_DEFAULT_MODEL = "gemini-2.5-flash-lite"
+DEFAULT_FALLBACKS = "gemini-flash-lite-latest,gemini-2.5-flash"
 
-DEFAULT_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
-FALLBACK_MODELS = [
-    m.strip()
-    for m in os.getenv(
-        "GEMINI_FALLBACK_MODELS",
-        "gemini-2.5-flash-lite,gemini-flash-lite-latest,gemini-2.5-flash",
-    ).split(",")
-    if m.strip()
-]
+
+def _load_env():
+    load_dotenv(ENV_PATH, override=True)
+
+
+def sanitize_model_name(name: str) -> str:
+    """Strip accidental pasted text (e.g. git commands) from model names."""
+    name = (name or "").strip()
+    match = re.match(r"^(?:models/)?(gemini[\w\-.]+)", name, re.IGNORECASE)
+    if match:
+        return match.group(1).lower().replace("models/", "")
+    return SAFE_DEFAULT_MODEL
+
+
+def get_default_model() -> str:
+    _load_env()
+    return sanitize_model_name(os.getenv("GEMINI_MODEL", SAFE_DEFAULT_MODEL))
+
+
+def get_fallback_models() -> list[str]:
+    _load_env()
+    raw = os.getenv("GEMINI_FALLBACK_MODELS", DEFAULT_FALLBACKS)
+    return [sanitize_model_name(m) for m in raw.split(",") if m.strip()]
 
 
 def configure_genai():
-    api_key = os.getenv("GEMINI_API_KEY")
+    _load_env()
+    api_key = os.getenv("GEMINI_API_KEY", "").strip()
     if not api_key:
         raise ValueError("GEMINI_API_KEY is not set. Add it to backend/.env")
     genai.configure(api_key=api_key)
@@ -28,7 +46,7 @@ def configure_genai():
 def model_candidates() -> list[str]:
     seen = set()
     ordered = []
-    for name in [DEFAULT_MODEL, *FALLBACK_MODELS]:
+    for name in [get_default_model(), *get_fallback_models()]:
         if name and name not in seen:
             seen.add(name)
             ordered.append(name)
@@ -38,6 +56,16 @@ def model_candidates() -> list[str]:
 def is_quota_error(message: str) -> bool:
     lowered = message.lower()
     return "429" in message or "quota" in lowered or "resource exhausted" in lowered
+
+
+def is_model_error(message: str) -> bool:
+    lowered = message.lower()
+    return (
+        "400" in message
+        or "unexpected model name" in lowered
+        or "not found" in lowered
+        or "invalid model" in lowered
+    )
 
 
 def parse_json_response(text: str) -> dict:
@@ -51,8 +79,9 @@ def parse_json_response(text: str) -> dict:
 def call_llm(prompt: str, system_instruction: str = "") -> tuple[str, str]:
     configure_genai()
     last_error = None
+    models = model_candidates()
 
-    for model_name in model_candidates():
+    for model_name in models:
         try:
             kwargs = {}
             if system_instruction:
@@ -65,11 +94,11 @@ def call_llm(prompt: str, system_instruction: str = "") -> tuple[str, str]:
         except Exception as exc:
             message = str(exc)
             last_error = exc
-            if is_quota_error(message):
+            if is_quota_error(message) or is_model_error(message):
                 continue
             raise RuntimeError(f"LLM request failed ({model_name}): {message}") from exc
 
     raise RuntimeError(
-        "Gemini API quota exceeded on all configured models. "
-        "Check your API key at https://aistudio.google.com/apikey"
+        f"All Gemini models failed. Tried: {', '.join(models)}. "
+        "Check GEMINI_API_KEY and GEMINI_MODEL in backend/.env"
     ) from last_error
