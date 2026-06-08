@@ -22,6 +22,11 @@
 * **GitHub Repository**: [GitHub Repo](https://github.com/vibithabalamurali/TestCaseGen)
 * **AI Reference Link**: [ChatGPT Reference Link](https://chatgpt.com/share/6a265385-4920-8320-a311-eb051e8861ab)
 
+### AI REFERENCE LINK
+
+https://chatgpt.com/share/6a265385-4920-8320-a311-eb051e8861ab
+
+
 ---
 
 ## 📌 Overview
