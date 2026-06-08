@@ -1,203 +1,416 @@
-# Test Case Generator from User Story
+# 🚀 AI Test Case Generator from User Stories
 
-**POC for Infinite Computer Solutions — 4th Round Project**
+## 👥 Team Information
 
-Turn user stories into structured Gherkin test cases (positive, negative, edge) and export Cucumber/Behave-ready `.feature` files using Google Gemini.
+### Team Name
 
-## Business Problem
+**InfiniteMinds**
 
-Writing test cases from user stories is slow and inconsistent. This tool automates BDD-style test design with LLM-powered structured generation.
+### Team Number
 
-## Features
+**Team 30**
 
-| Capability | Status |
-|---|---|
-| Web UI — paste user story, view Gherkin output | ✅ |
-| CLI — generate from stdin, file, or `--sample` | ✅ |
-| Positive + Negative + Edge scenarios | ✅ |
-| Gherkin format (Given/When/Then) | ✅ |
-| Structured prompt templates | ✅ |
-| Auto-write `.feature` file to `backend/output/` | ✅ |
-| Download `.feature` from web UI | ✅ |
-| Download **Cucumber/Behave ZIP** (feature + step defs + README) | ✅ |
-| Gherkin validation & formatting for BDD runners | ✅ |
+### Team Members
 
-## Architecture
+* Vibitha B K
+* Varun S
+* Varsha S
 
+---
+
+## 🌐 Deliverable Links
+
+### Demo Video
+
+https://www.loom.com/share/277309bc610c49ba940f40a580c0fc94
+
+### GitHub Repository
+
+https://github.com/vibithabalamurali/TestCaseGen
+
+---
+
+## 📌 Overview
+
+The AI Test Case Generator is a web-based application that automatically converts user stories into structured Behavior-Driven Development (BDD) test cases using Generative AI.
+
+The system analyzes user requirements and generates comprehensive test scenarios in Gherkin format, including positive, negative, and edge-case scenarios. The generated output can be directly used with automation frameworks such as Cucumber and Behave.
+
+This solution helps reduce manual effort, improve consistency, and increase test coverage during software testing activities.
+
+
+# 🧠 Problem Statement
+
+Software teams often spend significant time manually creating test cases from user stories. This process can be:
+
+* Time-consuming
+* Repetitive
+* Error-prone
+* Inconsistent across teams
+* Likely to miss important edge cases
+
+The AI Test Case Generator addresses these challenges by automatically generating structured test scenarios from natural language requirements.
+
+---
+
+# 🎯 Features
+
+### Core Features
+
+* User Story Input Interface
+* AI-Powered Test Case Generation
+* Positive Scenario Generation
+* Negative Scenario Generation
+* Edge Case Identification
+* Gherkin Format Output
+* Downloadable `.feature` Files
+* Cucumber-Compatible Output
+* Behave-Compatible Output
+* Story Coverage Analysis
+* Structured Prompt-Based Generation
+
+---
+
+# ⚙️ System Architecture
+
+```text
+User Story
+     │
+     ▼
+AI Processing Engine
+     │
+     ▼
+Coverage Analysis
+     │
+     ▼
+Scenario Generation
+     │
+     ▼
+Gherkin Formatter
+     │
+     ▼
+Feature File Generator
+     │
+     ▼
+Downloadable Output
 ```
-User Story  →  Prompt Template (Gherkin rules)  →  Gemini LLM  →  Clean Gherkin  →  .feature file
-                     ↑                                    ↑
-              backend/prompts/                   backend/services/
-              gherkin_template.py                generator.py + feature_writer.py
+
+---
+
+# 🛠️ Technology Stack
+
+## Frontend
+
+* React.js
+* JavaScript
+* Tailwind CSS
+* Axios
+
+## Backend
+
+* Python
+* Flask
+* Flask-CORS
+
+## AI Integration
+
+* Google Gemini API
+
+## Testing
+
+* Pytest
+
+---
+
+# 📂 Project Structure
+
+```text
+AI-Test-Case-Generator/
+
+├── backend/
+│   ├── tests/
+│   ├── downloads/
+│   ├── app.py
+│   ├── requirements.txt
+│   └── run_tests.bat
+│
+├── frontend/
+│   ├── src/
+│   ├── public/
+│   └── package.json
+│
+├── sample-data/
+│   ├── input/
+│   └── expected-output/
+│
+├── README.md
+└── AI_USAGE_NOTE.md
 ```
 
-## Prerequisites
+---
 
-- Python 3.10+
-- Node.js 18+
-- [Google Gemini API key](https://aistudio.google.com/apikey)
+# 🚀 Setup Instructions
 
-## Setup
+## Backend Setup
 
-### 1. Backend
+Install dependencies:
 
-```powershell
+```bash
 cd backend
-python -m venv venv
-.\venv\Scripts\activate
 pip install -r requirements.txt
-copy .env.example .env
 ```
 
-Edit `backend/.env` and set your key:
+Create a `.env` file:
 
-```
-GEMINI_API_KEY=your_actual_key_here
-```
-
-Start the API (use the virtual environment — required):
-
-```powershell
-cd backend
-.\start.bat
+```env
+GEMINI_API_KEY=your_api_key_here
 ```
 
-Or manually:
+Run the backend server:
 
-```powershell
-cd backend
-.\venv\Scripts\activate
+```bash
 python app.py
 ```
 
-> **Important:** Running `python app.py` without activating `venv` will fail with `No module named 'flask'` and the web UI will show "Failed to fetch".
+---
 
-API runs at `http://127.0.0.1:5000`.
+## Frontend Setup
 
-### 2. Frontend (Web App)
+Install dependencies:
 
-```powershell
+```bash
 cd frontend
 npm install
+```
+
+Run the frontend:
+
+```bash
 npm run dev
 ```
 
-Open the URL shown in the terminal (usually `http://localhost:5173`).
+Default frontend URL:
 
-## Usage
-
-### Web App
-
-1. Paste a user story (or click **Load sample**).
-2. Click **Generate Test Cases**.
-3. Review Gherkin output with `@positive`, `@negative`, `@edge` tags.
-4. **Copy** or **Download .feature** (single Gherkin file)
-5. **Download Cucumber/Behave ZIP** — full runnable Behave project (see below)
-
-### Download for Cucumber or Behave
-
-| Button | What you get | Use case |
-|--------|--------------|----------|
-| **Download .feature** | One formatted Gherkin file | Drop into existing Cucumber/Behave project |
-| **Download Cucumber/Behave ZIP** | Complete test package | Run immediately with Behave |
-
-**ZIP contents:**
-```
-behave.ini
-features/
-  your_feature.feature    ← formatted Gherkin (@positive, @negative, @edge)
-  environment.py          ← Behave hooks
-  steps/
-    common_steps.py       ← step definition stubs
-README_BEHAVE.md          ← how to run with Python Behave
-README_CUCUMBER.md        ← how to use with Java/JS Cucumber
+```text
+http://localhost:5173
 ```
 
-**Run the downloaded ZIP with Behave (Python):**
-```powershell
-# Unzip, then inside the folder:
-python -m venv venv
-.\venv\Scripts\activate
-pip install behave
-behave --dry-run          # verify steps match
-behave --tags=@positive   # run positive scenarios
+---
+
+# ▶️ Run Instructions
+
+### Start Backend
+
+```bash
+cd backend
+python app.py
 ```
 
-**Use with Cucumber (Java / JavaScript):**
-- Copy only the `.feature` file from the ZIP into your Cucumber `features/` folder
-- Implement step definitions in your language (see `README_CUCUMBER.md` in the ZIP)
+### Start Frontend
 
-### CLI
-
-Run from the `backend` folder (with venv activated):
-
-```powershell
-# Built-in sample story
-python cli.py --sample
-
-# From a file
-python cli.py --file ..\samples\login_user_story.txt
-
-# Inline story
-python cli.py --story "As a user, I want to reset my password..."
-
-# Custom output path
-python cli.py --sample -o ..\my_tests\login.feature
-
-# Print only (no file write)
-python cli.py --sample --no-save
+```bash
+cd frontend
+npm run dev
 ```
 
-Generated files are saved to `backend/output/` by default.
+---
 
-## Sample User Story
+# 🔌 API Endpoints
 
-See [`samples/login_user_story.txt`](samples/login_user_story.txt).
+| Endpoint               | Method | Description             |
+| ---------------------- | ------ | ----------------------- |
+| `/`                    | GET    | Home Route              |
+| `/health`              | GET    | Health Check            |
+| `/generate`            | POST   | Generate Test Cases     |
+| `/download-package`    | POST   | Generate Behave Package |
+| `/download/<filename>` | GET    | Download Feature File   |
 
-## API
+---
 
-| Method | Endpoint | Body | Response |
-|---|---|---|---|
-| GET | `/health` | — | `{ "status": "ok" }` |
-| POST | `/generate` | `{ "userStory": "...", "saveFile": true }` | Gherkin text + file path |
-| GET | `/download/<filename>` | — | `.feature` file download |
-| POST | `/download-package` | `{ "gherkin", "feature_filename", "feature_name" }` | ZIP with Behave project |
-| GET | `/download-package/<filename>` | — | ZIP from saved `.feature` |
+# 🧪 Example
 
-## Project Structure
+## Input User Story
 
-```
-TestCaseGenerator/
-├── backend/
-│   ├── app.py                 # Flask REST API
-│   ├── cli.py                 # Command-line interface
-│   ├── prompts/
-│   │   └── gherkin_template.py
-│   ├── services/
-│   │   ├── generator.py       # LLM call + output cleanup
-│   │   └── feature_writer.py  # Writes .feature files
-│   └── output/                # Generated .feature files
-├── frontend/
-│   └── src/App.jsx            # React web UI
-└── samples/
-    └── login_user_story.txt
+```text
+As a user, I want to log into the application using email and password so that I can access my dashboard.
 ```
 
-## Demo Script (Interview)
+## Generated Output
 
-1. Show the business problem: manual test case writing from stories is slow.
-2. Open web app → load sample login story → generate.
-3. Point out `@positive`, `@negative`, `@edge` scenarios and Given/When/Then steps.
-4. Download **Cucumber/Behave ZIP** → unzip → `pip install behave` → `behave --dry-run`
-5. Run CLI: `python cli.py --file ..\samples\login_user_story.txt` for automation angle.
-6. Explain structured templates in `backend/prompts/gherkin_template.py`.
+```gherkin
+Feature: Login Functionality
 
-## Tech Stack
+Scenario: Successful login with valid credentials
+Given user is on login page
+When user enters valid email and password
+Then user should be redirected to dashboard
 
-- **Backend:** Python, Flask, Google Generative AI (Gemini)
-- **Frontend:** React, Vite
-- **Output:** Gherkin `.feature` (Cucumber / Behave compatible)
+Scenario: Login with invalid password
+Given user is on login page
+When user enters valid email and invalid password
+Then error message should be displayed
+```
 
-## License
+---
 
-MIT — for portfolio / interview demonstration.
+# 📥 Download Features
+
+The application supports generation of:
+
+* Gherkin Feature Files
+* Behave-Compatible Packages
+* Cucumber-Compatible Packages
+
+Generated package contents:
+
+```text
+project_package.zip
+
+├── feature.feature
+├── environment.py
+├── common_steps.py
+└── README.md
+```
+
+---
+
+# 🧪 Testing & Quality Assurance
+
+## Backend Test Coverage
+
+The backend includes automated testing using **Pytest** to validate the application's core functionality and ensure reliable API behavior.
+
+### Testing Framework
+
+* Pytest (Python)
+
+### Execute Tests
+
+```bash
+cd backend
+
+run_tests.bat
+
+# OR
+
+pytest tests/ -v
+```
+
+### Covered Test Scenarios
+
+#### Health & Routing Integrity
+
+Validates:
+
+* API availability
+* Health endpoint functionality
+* Route accessibility
+
+#### AI Test Case Generation
+
+Validates:
+
+* User story submission
+* AI processing workflow
+* Gherkin generation
+* Response structure validation
+
+#### Behave Package Generation
+
+Validates:
+
+* ZIP archive creation
+* Package structure generation
+* Download readiness
+
+#### Feature File Downloads
+
+Validates:
+
+* File availability
+* Successful downloads
+* Content integrity
+
+### Coverage Summary
+
+| Component           | Status   |
+| ------------------- | -------- |
+| Health Endpoint     | ✅ Tested |
+| Route Validation    | ✅ Tested |
+| AI Test Generation  | ✅ Tested |
+| Response Validation | ✅ Tested |
+| Package Generation  | ✅ Tested |
+| File Downloads      | ✅ Tested |
+
+---
+
+## Frontend Quality Assurance
+
+Frontend quality is maintained through ESLint validation.
+
+Run lint checks:
+
+```bash
+npm run lint
+```
+
+### Validation Includes
+
+* Code Quality Checks
+* Syntax Validation
+* React Best Practices
+* Maintainability Standards
+
+---
+
+# 📂 Sample Data
+
+Sample input and expected output files are included in:
+
+```text
+sample-data/
+
+├── input/
+└── expected-output/
+```
+
+These files can be used to validate application behavior and generated results.
+
+---
+
+# 📋 Assumptions
+
+* User stories are provided in English.
+* Gemini API credentials are configured correctly.
+* Internet connectivity is available for AI processing.
+* Generated test cases are reviewed before production use.
+* Input user stories contain sufficient functional detail.
+
+---
+
+# ⚠️ Limitations
+
+* Output quality depends on user story clarity.
+* AI-generated scenarios may require manual refinement.
+* Complex domain-specific requirements may need additional validation.
+* Currently supports text-based user stories only.
+* Generated test cases should be reviewed by QA professionals before automation.
+
+---
+
+# 🔮 Future Enhancements
+
+* User Authentication
+* Jira Integration
+* Multi-Language Support
+* Test Case Prioritization
+* Export to PDF and Excel
+* Advanced Coverage Analytics
+* Automatic Step Definition Generation
+* CI/CD Integration
+
+---
+
+# 👨‍💻 Author
+
+Developed as part of an AI-powered software testing automation project focused on improving software quality assurance through automated test case generation.
