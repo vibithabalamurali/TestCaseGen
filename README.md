@@ -1,5 +1,35 @@
 # 🚀 AI Test Case Generator from User Stories
 
+## 👥 Team Information
+
+### Team Name
+
+**InfiniteMinds**
+
+### Team Number
+
+**Team 30**
+
+### Team Members
+
+* Vibitha B K
+* Varun S
+* Varsha S
+
+---
+
+## 🌐 Deliverable Links
+
+### Demo Video
+
+https://www.loom.com/share/277309bc610c49ba940f40a580c0fc94
+
+### GitHub Repository
+
+https://github.com/vibithabalamurali/TestCaseGen
+
+---
+
 ## 📌 Overview
 
 The AI Test Case Generator is a web-based application that automatically converts user stories into structured Behavior-Driven Development (BDD) test cases using Generative AI.
@@ -8,7 +38,6 @@ The system analyzes user requirements and generates comprehensive test scenarios
 
 This solution helps reduce manual effort, improve consistency, and increase test coverage during software testing activities.
 
----
 
 # 🧠 Problem Statement
 
