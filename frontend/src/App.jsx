@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 
-const API_BASE = import.meta.env.DEV ? "/api" : "http://127.0.0.1:5000";
+const API_BASE = import.meta.env.VITE_API_BASE || "https://testcasegen-pjoa.onrender.com";
 
 const SAMPLE_STORY = `As a registered user,
 I want to log in with my email and password,
